@@ -1,0 +1,177 @@
+%====================================================================================%
+%                           Universidade Federal Fluminense                          %
+%                          Mestrado em Ciência da Computação                         %
+%------------------------------------------------------------------------------------%
+% Título da Dissertação:                                                             %
+%    Um algoritmo heurístico híbrido para o problema de roteamento de veículos com   %
+%    coleta e entrega simultânea                                                     %
+%------------------------------------------------------------------------------------%
+% Autor      : Marcio Tadayuki Mine                           <mmine@ic.uff.br>      %
+% Orientador : Luiz Satoru Ochi                               <satoru@ic.uff.br>     %
+% Orientador : Marcone Jamilson Freitas Souza                 <marcone@iceb.ufop.br> %
+% ADAPTADO POR: Vitor Nazario Coelho    - Maio de 2013        <vncoelho@gmail.combr> %
+%====================================================================================%
+
+\begin{figure}[http]
+	\begin{center}
+		\begin{tikzpicture}[scale=.086]
+
+			\node[depot] (n0)  at (35,35) {};
+			\node[city]  (n1)  at (49,41) {};
+			\node[city]  (n2)  at (17,35) {};
+			\node[city]  (n3)  at (45,55) {};
+			\node[city]  (n4)  at (21,53) {};
+			\node[city]  (n5)  at (60,55) {};
+			\node[city]  (n6)  at (60,30) {};
+			\node[city]  (n7)  at (35,50) {};
+			\node[city]  (n8)  at (25,22) {};
+			\node[city]  (n9)  at (5,30)  {};
+			\node[city]  (n10) at (40,20) {};
+			\node[city]  (n11) at (65,45) {};
+			\node[city]  (n12) at (10,45) {};
+			\node[city]  (n13) at (5,55)  {};
+			\node[city]  (n14) at (33,64) {};
+			\node[city]  (n15) at (20,65) {};
+			\node[city]  (n16) at (69,35) {};
+			\node[city]  (n17) at (55,65) {};
+			\node[city]  (n18) at (65,63) {};
+			\node[city]  (n19) at (12,24) {};
+
+			\node[depotFont]   at (n0)    {0};
+			\node[cityFont]    at (n1)    {4};
+			\node[cityFont]    at (n2)    {13};
+			\node[cityFont]    at (n3)    {3};
+			\node[cityFont]    at (n4)    {1};
+			\node[cityFont]    at (n5)    {5};
+			\node[cityFont]    at (n6)    {6};
+			\node[cityFont]    at (n7)    {7};
+			\node[cityFont]    at (n8)    {11};
+			\node[cityFont]    at (n9)    {9};
+			\node[cityFont]    at (n10)   {10};
+			\node[cityFont]    at (n11)   {8};
+			\node[cityFont]    at (n12)   {12};
+			\node[cityFont]    at (n13)   {2};
+			\node[cityFont]    at (n14)   {19};
+			\node[cityFont]    at (n15)   {15};
+			\node[cityFont]    at (n16)   {16};
+			\node[cityFont]    at (n17)   {14};
+			\node[cityFont]    at (n18)   {18};
+			\node[cityFont]    at (n19)   {17};
+
+			\path[->, olive] (n0)  edge (n7)
+					  (n7)  edge (n14)
+					  (n14) edge (n15)
+					  (n15) edge (n4)
+					  (n4)  edge (n13)
+					  (n13) edge (n12)
+					  (n12) edge (n0);
+
+			\path[->,teal] (n0)  edge (n10)
+					  (n10) edge (n8)
+					  (n8)  edge (n19)
+					  (n19) edge (n9)
+					  (n9)  edge (n2)
+					  (n2)  edge (n0);
+
+			\path[->] (n0)  edge (n1)
+					  (n1)  edge (n6)
+					  (n6)  edge (n16)
+					  (n16) edge (n11);
+			\path[->,dashed]		  (n11) edge (n5)
+					  (n5)  edge (n18)
+					  (n18) edge (n17);
+			\path[->]		  (n17) edge (n3)
+					  (n3)  edge (n0);
+
+			\node[rectangle, scale=.8, olive] at (25,47) {Route 1};
+			\node[rectangle, scale=.8] at (53,47) {Route 2};
+			\node[rectangle, scale=.8, teal] at (25,29) {Route 3};
+
+			\node[depot] (m0)  at (115,35) {};
+			\node[city]  (m1)  at (129,41) {};
+			\node[city]  (m2)  at (97,35)  {};
+			\node[city]  (m3)  at (125,55) {};
+			\node[city]  (m4)  at (101,53) {};
+			\node[city]  (m5)  at (140,55) {};
+			\node[city]  (m6)  at (140,30) {};
+			\node[city]  (m7)  at (115,50) {};
+			\node[city]  (m8)  at (105,22) {};
+			\node[city]  (m9)  at (85,30)  {};
+			\node[city]  (m10) at (120,20) {};
+			\node[city]  (m11) at (145,45) {};
+			\node[city]  (m12) at (90,45)  {};
+			\node[city]  (m13) at (85,55)  {};
+			\node[city]  (m14) at (113,64) {};
+			\node[city]  (m15) at (100,65) {};
+			\node[city]  (m16) at (149,35) {};
+			\node[city]  (m17) at (135,65) {};
+			\node[city]  (m18) at (145,63) {};
+			\node[city]  (m19) at (92,24)  {};
+
+			\node[depotFont]   at (m0)    {0};
+			\node[cityFont]    at (m1)    {4};
+			\node[cityFont]    at (m2)    {13};
+			\node[cityFont]    at (m3)    {3};
+			\node[cityFont]    at (m4)    {1};
+			\node[cityFont]    at (m5)    {5};
+			\node[cityFont]    at (m6)    {6};
+			\node[cityFont]    at (m7)    {7};
+			\node[cityFont]    at (m8)    {11};
+			\node[cityFont]    at (m9)    {9};
+			\node[cityFont]    at (m10)   {10};
+			\node[cityFont]    at (m11)   {8};
+			\node[cityFont]    at (m12)   {12};
+			\node[cityFont]    at (m13)   {2};
+			\node[cityFont]    at (m14)   {19};
+			\node[cityFont]    at (m15)   {15};
+			\node[cityFont]    at (m16)   {16};
+			\node[cityFont]    at (m17)   {14};
+			\node[cityFont]    at (m18)   {18};
+			\node[cityFont]    at (m19)   {17};
+
+			\path[->, olive] (m0)  edge (m7)
+					  (m7)  edge (m14)
+					  (m14) edge (m15)
+					  (m15) edge (m4)
+					  (m4)  edge (m13)
+					  (m13) edge (m12)
+					  (m12) edge (m0);
+
+			\path[->] (m0)  edge (m1)
+					  (m1)  edge (m6)
+					  (m6)  edge (m16)
+					  (m16) edge (m11);
+			\path[->,very thick]		  (m11) edge (m18)
+					  (m18)  edge (m5)
+					  (m5) edge (m17);
+			\path[->] 		  (m17) edge (m3)
+					  (m3)  edge (m0);
+
+			\path[->,teal] (m0)  edge (m10)
+					  (m10) edge (m8)
+					  (m8)  edge (m19)
+					  (m19) edge (m9)
+					  (m9)  edge (m2)
+					  (m2)  edge (m0);
+
+			\node[rectangle, scale=.8, olive] at (105,47) {Route 1};
+			\node[rectangle, scale=.8] at (133,47) {Route 2};
+			\node[rectangle, scale=.8, teal] at (105,29) {Route 3};
+
+			% Legenda:
+			\draw (40,15) -- (110,15);
+			\draw (40,9) -- (110,9);
+
+			\node[depot, scale=.8] at (45,12) {};
+			\node[rectangle, scale=.8] at (57,12) {Depot};
+
+			\node[city, scale=.85] at (70,12) {};
+			\node[rectangle, scale=.8] at (81,12) {Client};
+
+			\draw[->] (91,12) -- (94,12);
+			\node[rectangle, scale=.8] at (102,12) {Route};
+
+		\end{tikzpicture}
+		\caption{Example of \textit{Exchange} Move}\label{fig:EVExchange}
+	\end{center}
+\end{figure}

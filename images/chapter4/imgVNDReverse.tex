@@ -1,0 +1,219 @@
+%====================================================================================%
+%                           Universidade Federal Fluminense                          %
+%                          Mestrado em Ciência da Computação                         %
+%------------------------------------------------------------------------------------%
+% Título da Dissertação:                                                             %
+%    Um algoritmo heurístico híbrido para o problema de roteamento de veículos com   %
+%    coleta e entrega simultânea                                                     %
+%------------------------------------------------------------------------------------%
+% Autor      : Marcio Tadayuki Mine                           <mmine@ic.uff.br>      %
+% Orientador : Luiz Satoru Ochi                               <satoru@ic.uff.br>     %
+% Orientador : Marcone Jamilson Freitas Souza                 <marcone@iceb.ufop.br> %
+%====================================================================================%
+
+\begin{figure}[H]
+	\begin{center}
+		\begin{tikzpicture}[scale=.1]
+
+			\node[depot] (n0)  at (35,35) {};
+			\node[city]  (n1)  at (49,41) {};
+			\node[city]  (n2)  at (17,35) {};
+			\node[city]  (n3)  at (45,55) {};
+			\node[city]  (n4)  at (21,53) {};
+			\node[city]  (n5)  at (60,55) {};
+			\node[city]  (n6)  at (60,30) {};
+			\node[city]  (n7)  at (35,50) {};
+			\node[city]  (n8)  at (25,22) {};
+			\node[city]  (n9)  at (5,30)  {};
+			\node[city]  (n10) at (40,20) {};
+			\node[city]  (n11) at (65,45) {};
+			\node[city]  (n12) at (10,45) {};
+			\node[city]  (n13) at (5,55)  {};
+			\node[city]  (n14) at (33,64) {};
+			\node[city]  (n15) at (20,65) {};
+			\node[city]  (n16) at (69,35) {};
+			\node[city]  (n17) at (55,65) {};
+			\node[city]  (n18) at (65,63) {};
+			\node[city]  (n19) at (12,24) {};
+
+			\node[depotFont]   at (n0)    {0};
+			\node[cityFont]    at (n1)    {1};
+			\node[cityFont]    at (n2)    {2};
+			\node[cityFont]    at (n3)    {3};
+			\node[cityFont]    at (n4)    {4};
+			\node[cityFont]    at (n5)    {5};
+			\node[cityFont]    at (n6)    {6};
+			\node[cityFont]    at (n7)    {7};
+			\node[cityFont]    at (n8)    {8};
+			\node[cityFont]    at (n9)    {9};
+			\node[cityFont]    at (n10)   {10};
+			\node[cityFont]    at (n11)   {11};
+			\node[cityFont]    at (n12)   {12};
+			\node[cityFont]    at (n13)   {13};
+			\node[cityFont]    at (n14)   {14};
+			\node[cityFont]    at (n15)   {15};
+			\node[cityFont]    at (n16)   {16};
+			\node[cityFont]    at (n17)   {17};
+			\node[cityFont]    at (n18)   {18};
+			\node[cityFont]    at (n19)   {19};
+
+			\node[cityPD]      at (n1.north)      {[7/12]};
+			\node[cityPD]      at (n2.north)      {[13/30]};
+			\node[cityPD]      at (n3.east)       {[19/7]};
+			\node[cityPD]      at (n4.north)      {[5/28]};
+			\node[cityPD]      at (n5.east)       {[17/11]};
+			\node[cityPD]      at (n6.south east) {[29/15]};
+			\node[cityPD]      at (n7.north)      {[3/19]};
+			\node[cityPD]      at (n8.north)      {[27/31]};
+			\node[cityPD]      at (n9.north)      {[14/6]};
+			\node[cityPD]      at (n10.north)     {[10/5]};
+			\node[cityPD]      at (n11.north)     {[15/29]};
+			\node[cityPD]      at (n12.north)     {[18/21]};
+			\node[cityPD]      at (n13.north)     {[11/16]};
+			\node[cityPD]      at (n14.north)     {[26/25]};
+			\node[cityPD]      at (n15.north)     {[15/24]};
+			\node[cityPD]      at (n16.north)     {[21/15]};
+			\node[cityPD]      at (n17.north)     {[8/3]};
+			\node[cityPD]      at (n18.north)     {[16/1]};
+			\node[cityPD]      at (n19.north)     {[9/20]};
+
+			\path[->] (n0)  edge (n7)
+					  (n7)  edge (n14)
+					  (n14) edge (n15)
+					  (n15) edge (n4)
+					  (n4)  edge (n13)
+					  (n13) edge (n12)
+					  (n12) edge (n0);
+
+			\path[->] (n0)  edge (n10)
+					  (n10) edge (n8)
+					  (n8)  edge (n19)
+					  (n19) edge (n9)
+					  (n9)  edge (n2)
+					  (n2)  edge (n0);
+
+			\path[->] (n0)  edge (n1)
+					  (n1)  edge (n6)
+					  (n6)  edge (n16)
+					  (n16) edge (n11)
+					  (n11) edge (n5)
+					  (n5)  edge (n18)
+					  (n18) edge (n17)
+					  (n17) edge (n3)
+					  (n3)  edge (n0);
+
+			\node[rectangle, scale=.8] at (25,49) {Rota 1};
+			\node[rectangle, scale=.8] at (53,49) {Rota 2};
+			\node[rectangle, scale=.8] at (25,31) {Rota 3};
+
+			\node[depot] (m0)  at (115,35) {};
+			\node[city]  (m1)  at (129,41) {};
+			\node[city]  (m2)  at (97,35)  {};
+			\node[city]  (m3)  at (125,55) {};
+			\node[city]  (m4)  at (101,53) {};
+			\node[city]  (m5)  at (140,55) {};
+			\node[city]  (m6)  at (140,30) {};
+			\node[city]  (m7)  at (115,50) {};
+			\node[city]  (m8)  at (105,22) {};
+			\node[city]  (m9)  at (85,30)  {};
+			\node[city]  (m10) at (120,20) {};
+			\node[city]  (m11) at (145,45) {};
+			\node[city]  (m12) at (90,45)  {};
+			\node[city]  (m13) at (85,55)  {};
+			\node[city]  (m14) at (113,64) {};
+			\node[city]  (m15) at (100,65) {};
+			\node[city]  (m16) at (149,35) {};
+			\node[city]  (m17) at (135,65) {};
+			\node[city]  (m18) at (145,63) {};
+			\node[city]  (m19) at (92,24)  {};
+
+			\node[depotFont]   at (m0)    {0};
+			\node[cityFont]    at (m1)    {1};
+			\node[cityFont]    at (m2)    {2};
+			\node[cityFont]    at (m3)    {3};
+			\node[cityFont]    at (m4)    {4};
+			\node[cityFont]    at (m5)    {5};
+			\node[cityFont]    at (m6)    {6};
+			\node[cityFont]    at (m7)    {7};
+			\node[cityFont]    at (m8)    {8};
+			\node[cityFont]    at (m9)    {9};
+			\node[cityFont]    at (m10)   {10};
+			\node[cityFont]    at (m11)   {11};
+			\node[cityFont]    at (m12)   {12};
+			\node[cityFont]    at (m13)   {13};
+			\node[cityFont]    at (m14)   {14};
+			\node[cityFont]    at (m15)   {15};
+			\node[cityFont]    at (m16)   {16};
+			\node[cityFont]    at (m17)   {17};
+			\node[cityFont]    at (m18)   {18};
+			\node[cityFont]    at (m19)   {19};
+
+			\node[cityPD]      at (m1.north)      {[7/12]};
+			\node[cityPD]      at (m2.north)      {[13/30]};
+			\node[cityPD]      at (m3.east)       {[19/7]};
+			\node[cityPD]      at (m4.north)      {[5/28]};
+			\node[cityPD]      at (m5.east)       {[17/11]};
+			\node[cityPD]      at (m6.south east) {[29/15]};
+			\node[cityPD]      at (m7.north)      {[3/19]};
+			\node[cityPD]      at (m8.north)      {[27/31]};
+			\node[cityPD]      at (m9.north)      {[14/6]};
+			\node[cityPD]      at (m10.north)     {[10/5]};
+			\node[cityPD]      at (m11.north)     {[15/29]};
+			\node[cityPD]      at (m12.north)     {[18/21]};
+			\node[cityPD]      at (m13.north)     {[11/16]};
+			\node[cityPD]      at (m14.north)     {[26/25]};
+			\node[cityPD]      at (m15.north)     {[15/24]};
+			\node[cityPD]      at (m16.north)     {[21/15]};
+			\node[cityPD]      at (m17.north)     {[8/3]};
+			\node[cityPD]      at (m18.north)     {[16/1]};
+			\node[cityPD]      at (m19.north)     {[9/20]};
+
+			\path[->] (m0)  edge (m7)
+					  (m7)  edge (m14)
+					  (m14) edge (m15)
+					  (m15) edge (m4)
+					  (m4)  edge (m13)
+					  (m13) edge (m12)
+					  (m12) edge (m0);
+
+			\path[->] (m0)  edge (m10)
+					  (m10) edge (m8)
+					  (m8)  edge (m19)
+					  (m19) edge (m9)
+					  (m9)  edge (m2)
+					  (m2)  edge (m0);
+
+			\path[<-] (m0)  edge (m1)
+					  (m1)  edge (m6)
+					  (m6)  edge (m16)
+					  (m16) edge (m11)
+					  (m11) edge (m5)
+					  (m5)  edge (m18)
+					  (m18) edge (m17)
+					  (m17) edge (m3)
+					  (m3)  edge (m0);
+
+			\node[rectangle, scale=.8] at (105,49) {Rota 1};
+			\node[rectangle, scale=.8] at (133,49) {Rota 2};
+			\node[rectangle, scale=.8] at (105,31) {Rota 3};
+
+			% Legenda:
+			\draw (29,15) -- (125,15);
+			\draw (29,9) -- (125,9);
+			
+			\node[depot, scale=.8] at (34,12) {};
+			\node[rectangle, scale=.8] at (43,12) {Depósito};
+
+			\node[city, scale=.85] at (56,12) {};
+			\node[rectangle, scale=.8] at (64,12) {Cliente};
+
+			\node[rectangle, scale=.8] at (77,12) {$[d_i/p_i]$};
+			\node[rectangle, scale=.8] at (95,12) {Demanda/Coleta};
+	
+			\draw[->] (110,12) -- (114,12);
+			\node[rectangle, scale=.8] at (118,12) {Rota};
+			
+		\end{tikzpicture}
+		\caption{Aplicação do procedimento \textit{Reverse} na Rota 2.}\label{fig:VNDReverse}
+	\end{center}
+\end{figure}
